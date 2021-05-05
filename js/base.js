@@ -47,3 +47,19 @@ function operations(a,b){
     return myResult;
 
 }
+
+
+/*
+	Pedir por el promt un numero, y comprobar si es par o impar
+*/
+
+let givenNumber;
+
+givenNumber = window.prompt("Por favor dame un número para saber si par o impar");
+
+if (givenNumber %2 === 0){
+    console.log("El número: " + givenNumber + " es par");
+}else{
+    console.log("El número: " + givenNumber + " es impar");
+}
+

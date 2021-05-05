@@ -23,7 +23,7 @@ function userInputs(item, index) {
     console.log(userSet[index]);
 }
 
-function checkValues (item, index) {
+function checkValues (index) {
    
    console.log(userSet[index]);
    console.log(reverseSet[index]);

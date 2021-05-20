@@ -29,12 +29,9 @@ let kodersArray = [
 // Array Backups for manipulation
 
 let koderToSubscribe = kodersArray.map(item => item)
-console.table(koderToSubscribe)
-
 let koderSubscribed = []
-console.table(koderSubscribed)
 
-// Table prints init
+// Init Table prints
 
 printTable("table1",koderToSubscribe,"Inscribir")
 printTable("table2",koderSubscribed,"Cancelar") 
@@ -45,7 +42,6 @@ printTable("table2",koderSubscribed,"Cancelar")
 function htmlBtnClick(btnId) {
 
     let btnClicked = document.getElementById(btnId)
-    //alert("The button you clicked has the id: " + btnId)
 
     if (btnClicked.innerText == "Inscribir") {
         swapArrayKoder(btnId,koderToSubscribe,koderSubscribed,btnClicked.innerText)
@@ -69,23 +65,9 @@ function swapArrayKoder(koderID, tableArray1, tableArray2, actionStr) {
 
     let itemKoder = tableArray1.find(item => item.id == koderID)
     let currentIndex = tableArray1.findIndex(item => item.id == koderID)
-    console.group()
-    console.log("%c Current index: " + currentIndex,"color: red; font-size: 1rem;")
-    console.table(itemKoder)
     
-
-    tableArray2.push(itemKoder)
-    console.group()
-    console.log("%c Table 2","color: red; font-size: 1rem;")
-    console.table(tableArray2)
-    console.groupEnd()
-
+    tableArray2.push(itemKoder)    
     tableArray1.splice(currentIndex, 1)
-    console.group()
-    console.log("%c Table 1","color: red; font-size: 1rem;")
-    console.table(tableArray1)
-    console.groupEnd() 
-    console.groupEnd()
 
     if (actionStr == "Inscribir") {
         printTable("table1",tableArray1,"Inscribir")

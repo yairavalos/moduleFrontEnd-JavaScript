@@ -26,63 +26,81 @@ let kodersArray = [
 
 ]
 
+// Array Backups for manipulation
+
 let koderToSubscribe = kodersArray.map(item => item)
 console.table(koderToSubscribe)
 
 let koderSubscribed = []
 console.table(koderSubscribed)
 
+// Table prints init
 
 printTable("table1",koderToSubscribe,"Inscribir")
 printTable("table2",koderSubscribed,"Cancelar") 
 
+// function called from HTML
+// function to get btn id and define operation flow
 
 function htmlBtnClick(btnId) {
 
     let btnClicked = document.getElementById(btnId)
-    alert("The button you clicked has the id: " + btnId)
+    //alert("The button you clicked has the id: " + btnId)
 
     if (btnClicked.innerText == "Inscribir") {
-       subscribeKoder(btnId)
+        swapArrayKoder(btnId,koderToSubscribe,koderSubscribed,btnClicked.innerText)
     }
 
     if (btnClicked.innerText == "Cancelar") {
-        cancelKoder(btnId)
+        swapArrayKoder(btnId,koderSubscribed,koderToSubscribe,btnClicked.innerText)
     }
 
 }
 
-function subscribeKoder (koderID) {
+// its the same fucking shit around
+// just depend from what table pov
+
+function swapArrayKoder(koderID, tableArray1, tableArray2, actionStr) {
     // filter obj from array 1 // we are going to try find()
     // push new obj in array 2
     // remove obj from array 1 // we are going to try splice()
     // send to reprint
-    alert(`Este koder ${koderID} se quiere Inscribir`)
+    //alert(`Este koder ${koderID} se quiere Inscribir`)
 
-    let itemKoder = koderToSubscribe.find(item => item.id == koderID)
-    let currentIndex = koderToSubscribe.findIndex(item => item.id == koderID)
+    let itemKoder = tableArray1.find(item => item.id == koderID)
+    let currentIndex = tableArray1.findIndex(item => item.id == koderID)
+    console.group()
+    console.log("%c Current index: " + currentIndex,"color: red; font-size: 1rem;")
     console.table(itemKoder)
-    console.log("Current index: " + currentIndex)
+    
 
-    koderSubscribed.push(itemKoder)
-    console.table(koderSubscribed)
+    tableArray2.push(itemKoder)
+    console.group()
+    console.log("%c Table 2","color: red; font-size: 1rem;")
+    console.table(tableArray2)
+    console.groupEnd()
 
-    koderToSubscribe.splice(currentIndex, 1)
-    console.table(koderToSubscribe)
+    tableArray1.splice(currentIndex, 1)
+    console.group()
+    console.log("%c Table 1","color: red; font-size: 1rem;")
+    console.table(tableArray1)
+    console.groupEnd() 
+    console.groupEnd()
 
-    printTable("table1",koderToSubscribe,"Inscribir")
-    printTable("table2",koderSubscribed,"Cancelar")
+    if (actionStr == "Inscribir") {
+        printTable("table1",tableArray1,"Inscribir")
+        printTable("table2",tableArray2,"Cancelar")
+    }
+
+    if (actionStr == "Cancelar") {
+        printTable("table1",tableArray2,"Inscribir")
+        printTable("table2",tableArray1,"Cancelar")
+    }
+    
 }
 
-
-function cancelKoder (koderID) {
-    // filter obj from array 1 // we are going to try find()
-    // push new obj in array 2
-    // remove obj from array 1 // we are going to try splice()
-    // send to reprint
-
-    alert(`Este koder ${koderID} quiere cancelar su inscripción`)
-}
+// Table printing its almost the fucking same
+// the only change is actionStr to know operation directions
 
 function printTable (tableID, arrayToPrint, actionStr) {
 

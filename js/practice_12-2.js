@@ -41,6 +41,10 @@ printTable("table2",koderSubscribed,"Cancelar")
 
 function htmlBtnClick(btnId) {
 
+    // recomendación no leer el texto, mejor una clase y así puede variar el texto
+    // validar que los elementos existan, validar ID o el botón que exista, si no brincar la acción
+    // con JQuery viene incluido
+    // otra forma de resolverlo es agregar un atributo value y ahí después leerlo
     let btnClicked = document.getElementById(btnId)
 
     if (btnClicked.innerText == "Inscribir") {

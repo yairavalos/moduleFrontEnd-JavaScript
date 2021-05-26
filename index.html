@@ -18,23 +18,80 @@
   <hr class="border border-secondary">
 
   <div class="container">
-    <div class="row ">
+    <div class="row justify-content-center ">
 
-      <div class="card" style="width: 18rem;">
-        <img src="https://picsum.photos/200/300" class="card-img-top" alt="image card">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-            content.
-          </p>
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-            content.
-          </p>
+      <form class="needs-validation" novalidate>
+        <div class="form-row">
+          <div class="col-3 mb-3">
+            <!--mb margin bottom-->
+            <label for="validationTooltip01">First name</label>
+            <input type="text" class="form-control myFormName" id="validationTooltip01" placeholder="Mark" required>
+            <div class="valid-tooltip">
+              Looks good!
+            </div>
+          </div>
+          <div class="col-3 mb-3">
+            <label for="validationTooltip02">Last name</label>
+            <input type="text" class="form-control myFormLastName" id="validationTooltip02" placeholder="Otto" required>
+            <div class="valid-tooltip">
+              Looks good!
+            </div>
+          </div>
+          <div class="col-3 mb-3">
+            <label for="validationTooltip03">Age</label>
+            <input type="number" class="form-control myFormAge" id="validationTooltip03" placeholder="29" required>
+            <div class="invalid-tooltip">
+              Please provide a valid city.
+            </div>
+          </div>
+          <div class="col-3 mb-3">
+            <label for="validationTooltip04">Position</label>
+            <select class="custom-select myFormPosition" id="validationTooltip04" required>
+              <option selected disabled value="">Choose...</option>
+              <option>Coord</option>
+              <option>Mentor</option>
+              <option>Auxiliar</option>
+              <option>Koder</option>
+            </select>
+            <div class="invalid-tooltip">
+              Please select a valid state.
+            </div>
+          </div>
         </div>
-      </div>
+        <button class="btn btn-primary" type="submit" id="myBtn">Submit form</button>
+      </form>
+
+
     </div>
   </div>
+
+  <hr class="border border-secondary">
+
+  <div class="container">
+    <div class="row justify-content-center">
+
+      <table class="table table-striped">
+        <thead class="table-head">
+          <tr>
+            <th scope="col">DB-ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Age</th>
+            <th scope="col">Position</th>
+            <th scope="col">View</th>
+            <th scope="col">Update</th>
+            <th scope="col">Erase</th>
+          </tr>
+        </thead>
+        <tbody class="table-body">
+          <!--Here is going to be firebase data-->
+
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
 
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -46,7 +103,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
     integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
     crossorigin="anonymous"></script>
-  <script src="js/homework_14-2.js"></script>
+  <script src="js/homework_15-1.js"></script>
 </body>
 
 </html>

@@ -145,9 +145,9 @@ function tablePrint () {
         tableBodyStr += `<td>${jsonKey[1].lastname}</td>`
         tableBodyStr += `<td>${jsonKey[1].age}</td>`
         tableBodyStr += `<td>${jsonKey[1].position}</td>`
-        tableBodyStr += `<td><a class="btn btn-primary">View</a></td>`
-        tableBodyStr += `<td><a class="btn btn-primary" onclick='preLoadUserData("${jsonKey[0]}",2)'>Update</a></td>`
-        tableBodyStr += `<td><a class="btn btn-primary" onclick='preLoadUserData("${jsonKey[0]}",3)'>Erase</a></td>`
+        tableBodyStr += `<td><a href="#top" class="btn btn-success">View</a></td>`
+        tableBodyStr += `<td><a href="#top" class="btn btn-primary" onclick='preLoadUserData("${jsonKey[0]}",2)'>Update</a></td>`
+        tableBodyStr += `<td><a class="btn btn-danger" onclick='preLoadUserData("${jsonKey[0]}",3)'>Erase</a></td>`
         tableBodyStr += `</tr>`  
     })
 

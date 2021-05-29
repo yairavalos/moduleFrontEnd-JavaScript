@@ -74,12 +74,30 @@ $("document").ready( ()=> {
 
     })
  
+    console.log("%c--------- Starting Event Delegation Test --------------","color:green;")
+        
+    $(".table .table-body").on("click",(eventObj1 => {
+        console.log(`%c This is the delegated event: ${eventObj1}`, "color:red;")
+        delegatedEvent = eventObj1
+        console.log(`%c This is what you were looking for: ${eventObj1.target.dataset.myhash2}`, "color:green;")
+    }))
+
+    // Route analysis:
+    // ----------------------------
+    // Event>originalEvent>path>[0]:a.btn.btn-primary>attributes>data-myhash2>nodeValue||textContent
+    // Event>originalEvent>path>[0]:a.btn.btn-primary>dataset>myhash2
+    // Event>originalEvent>srcElement>dataset>myhash2
+    // Event>originalEvent>target>dataset>myhash2
+    // Event>target>dataset>myhash2
+    // Event>target>innerText
+
 })
 
 
     // Table Data Printing and Data Update according to Server Response:
     // ------------------------------------------------------------------------
 
+    let delegatedEvent
     let JSONResponseArray1
 
     function tablePrint () {
@@ -167,7 +185,6 @@ $("document").ready( ()=> {
         $.ajax({
             url:"https://mydbtest-67b94-default-rtdb.firebaseio.com/.json",
             data:JSON.stringify(userObj),
-            type:"POST",
             dataType:"json",
             method:"POST",
             success: (myResponse)=>{
@@ -220,6 +237,7 @@ $("document").ready( ()=> {
         //XHRConn.open('PUT',`https://mydbtest-67b94-default-rtdb.firebaseio.com/${userKEY}.json`)
         //XHRConn.send(JSON.stringify(userObj))
 
+        /*
         fetch(`https://mydbtest-67b94-default-rtdb.firebaseio.com/${userKEY}/.json`,{
             method: "PUT",
             body: JSON.stringify(userObj)
@@ -239,6 +257,21 @@ $("document").ready( ()=> {
             tablePrint()
 
         })
+        */
+
+        $.ajax({
+            url:`https://mydbtest-67b94-default-rtdb.firebaseio.com/${userKEY}/.json`,
+            data:JSON.stringify(userObj),
+            dataType:"json",
+            method:"PUT",
+            success: (myResponse)=>{
+                console.log(myResponse)
+                getTableData()
+                tablePrint()
+            },
+            error: (eResponse)=> {console.log(eResponse)},
+            complete: (myResponse)=>{console.log(myResponse)}
+        })
 
     }
 
@@ -246,6 +279,7 @@ $("document").ready( ()=> {
         //XHRConn.open('DELETE',`https://mydbtest-67b94-default-rtdb.firebaseio.com/${userKEY}.json`)
         //XHRConn.send(JSON.stringify(userObj))
 
+        /*
         fetch(`https://mydbtest-67b94-default-rtdb.firebaseio.com/${userKEY}/.json`,{
             method: "DELETE",
             body: JSON.stringify(userObj)
@@ -264,6 +298,21 @@ $("document").ready( ()=> {
             getTableData()
             tablePrint()
 
+        })
+        */
+
+        $.ajax({
+            url:`https://mydbtest-67b94-default-rtdb.firebaseio.com/${userKEY}/.json`,
+            data:JSON.stringify(userObj),
+            dataType:"json",
+            method:"DELETE",
+            success: (myResponse)=>{
+                console.log(myResponse)
+                getTableData()
+                tablePrint()
+            },
+            error: (eResponse)=> {console.log(eResponse)},
+            complete: (myResponse)=>{console.log(myResponse)}
         })
 
     }
@@ -297,64 +346,16 @@ $("document").ready( ()=> {
 
     getTableData()
 
+    /* 
+    Actividades que faltan:
+    ----------------------------------------
 
+    - Hacer la interfase para la CARD Flotante
+    - Delegar el evento hacia la tabla y descubrir quién hico click
+    - hacer una función universal de Ajax donde solo tengas que poner params y llamarla
+    - aquí el área de oportunidad es usar el dataset para el hash de firebase
+           ej. data-hash="-hash-from-firebase"
+           otra forma es usar los query params en la barra de url
+   
 
-
-/*
-
-    Tema de Ajax con JQuery
-
-     $.get('https://python2g-default-rtdb.firebaseio.com/koders.json', (response) => {
-        printKoders(response)  
-    })
-
-    ------------------------------------------------------------------------
-
-
-    Código de Ejemplo por parte de Jorge C.
-
-    $(document).ready(function(){
-    console.log('ready')
-
-    $('#btn__create--koder').click(function(){
-        // sentencias
-        console.log('click en crear')
-        let inputname = $('#name').val()
-        let inputlastname = $('#lastname').val()
-        let inputage = parseInt($('#age').val())
-        let inputposition = $('#position').val()
-
-        if(inputname == '' || inputlastname == '' || inputage == '' || inputposition == ''){
-            console.log('Faltan datos obligatorios')
-            return
-        }
-
-        let newUserObject = {
-            name: inputname,
-            lastname: inputlastname,
-            age: inputage,
-            position: inputposition
-        }
-
-        fetch('https://python2g-default-rtdb.firebaseio.com/koders/.json', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(newUserObject)
-        })
-        .then((res) => {
-            return res.json()
-        })
-        .then((response) => {
-            console.log(response)
-            window.location.pathname = '/'
-        })
-        .catch(function(error) {
-            console.log(error.message);
-        });
-
-    })
-})
-
-*/
+    */

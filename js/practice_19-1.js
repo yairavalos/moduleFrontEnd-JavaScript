@@ -32,17 +32,17 @@ $("document").ready( ()=> {
    
         switch (userAction){
             case 0:
-                newUserData()
+                DBTransactions("POST","")
             break
             case 1:
                 userAction = 0
             break
             case 2:
-                updateUserData()
+                DBTransactions("PATCH",userKEY)
                 userAction = 0
             break
             case 3:
-                eraseUser()
+                DBTransactions("DELETE",userKEY)
                 userAction = 0
             break
             default:
@@ -69,22 +69,24 @@ $("document").ready( ()=> {
         console.log(`%c And wants to perform this action: ${eventObj1.target.dataset.myaction}`, "color:green;")
     }))
    
-})
-  
-    // Table Data requested and retrieved from Firebase 
+})  
+
+    // Inicialización general del Script
     // ------------------------------------------------------------------------
-
-    function getTableData() {
-    
-        $.get("https://mydbtest-67b94-default-rtdb.firebaseio.com/.json", (myJSon) => {
-
-            JSONResponse1 = myJSon
-            tablePrint()
-
-        })
-
+   
+    let userKEY = ""
+    let userObj = {
+   
+        username: "",
+        lastname: "",
+        age: 0,
+        position: ""
     }
    
+    // Default value is 0 for upload, 1 for view, 2 for update, 3 for Erase
+ 
+    let userAction = 0
+        
     // Table Data Printing and Data Update according to Server Response:
     // ------------------------------------------------------------------------
    
@@ -115,23 +117,7 @@ $("document").ready( ()=> {
         $(".table .table-body").html(tableBodyStr)
 
     }
-   
-  
-    // Inicialización general del Script
-    // ------------------------------------------------------------------------
-   
-    let userKEY = ""
-    let userObj = {
-   
-        username: "",
-        lastname: "",
-        age: 0,
-        position: ""
-    }
-   
-    // Default value is 0 for upload, 1 for view, 2 for update, 3 for Erase
- 
-    let userAction = 0
+     
 
     // Here are the general function to preload FORM before any Action
     // ------------------------------------------------------------------------
@@ -151,91 +137,47 @@ $("document").ready( ()=> {
 
     }
    
-    // Here are the action buttons function from printed table & Top Form
-    // ------------------------------------------------------------------------
-   
-    let JSONResponse
-    let JSONResponse1
-    
-    function newUserData () {
-   
-        $.ajax({
-            url:"https://mydbtest-67b94-default-rtdb.firebaseio.com/.json",
-            data:JSON.stringify(userObj),
-            dataType:"json",
-            method:"POST",
-            success: (myResponse)=>{
-                console.log(myResponse)
-                getTableData()
-                tablePrint()
-            },
-            error: (eResponse)=> {console.log(eResponse)},
-            complete: (myResponse)=>{console.log(myResponse)}
-        })
-   
-    }
-      
-    function viewUserData () {
-   
-    }
-   
-    function updateUserData() {
-   
-        $.ajax({
-            url:`https://mydbtest-67b94-default-rtdb.firebaseio.com/${userKEY}/.json`,
-            data:JSON.stringify(userObj),
-            dataType:"json",
-            method:"PUT",
-            success: (myResponse)=>{
-                console.log(myResponse)
-                getTableData()
-                tablePrint()
-            },
-            error: (eResponse)=> {console.log(eResponse)},
-            complete: (myResponse)=>{console.log(myResponse)}
-        })
-   
-    }
-   
-    function eraseUser() {
-   
-        $.ajax({
-            url:`https://mydbtest-67b94-default-rtdb.firebaseio.com/${userKEY}/.json`,
-            data:JSON.stringify(userObj),
-            dataType:"json",
-            method:"DELETE",
-            success: (myResponse)=>{
-                console.log(myResponse)
-                getTableData()
-                tablePrint()
-            },
-            error: (eResponse)=> {console.log(eResponse)},
-            complete: (myResponse)=>{console.log(myResponse)}
-        })
-   
-    }
-     
-             
+                
     // Standard Transactions Function to get any request in just one function
     // ------------------------------------------------------------------------
 
-    function DBTransactions(methodStr,selectorStr) {
+    function DBTransactions(methodStr,myUserID) {
         
         $.ajax({
-            url:`https://mydbtest-67b94-default-rtdb.firebaseio.com/${userKEY}/.json`,
+            url:`https://mydbtest-67b94-default-rtdb.firebaseio.com/${myUserID}.json`,
             data:JSON.stringify(userObj),
             dataType:"json",
             method:methodStr,
-            success: (myResponse)=>{
-                console.log(myResponse)
-                getTableData()
-                tablePrint()
-            },
-            error: (eResponse)=> {console.log(eResponse)},
-            complete: (myResponse)=>{console.log(myResponse)}
+            success: 
+            async (myResponse)=>{
+                try {
+                    JSONResponse1 = await myResponse
+                    getTableData()
+                    console.log("This is my Response from Ajax: " + myResponse + " from this url:" + $.ajax.url)
+                } catch (error) {
+                    console.log("This an Error from Ajax: " + error)
+                } 
+            }
         })
 
     }
+
+    function getTableData() {
+   
+        $.get("https://mydbtest-67b94-default-rtdb.firebaseio.com/.json", async (myJSon) => {
+
+            try{
+                JSONResponse1 = await myJSon
+                console.log("This is my Response from Ajax getting the table: " + myJSon)
+                tablePrint()
+            } catch (error){
+                console.log("This an Error from Ajax trying to get the full table: " + error)
+            }
+            
+        })
+
+    }
+
 
     // Here is the initial printing after webpage is loaded
     // ------------------------------------------------------------------------
@@ -245,9 +187,9 @@ $("document").ready( ()=> {
     // Missings:
     // ----------------------------------
     /*
-        - floating 
+        - floating card
         - query params on windows location
-        - just one transactional function
+        - just one transactional function ... on going
         - with async and try / catch
         - event delegation from table-body
 

@@ -54,22 +54,9 @@ $("document").ready( ()=> {
         $("#validationTooltip04").val("")
    
     })
-    
 
-    // Form Event Handling
-    // ------------------------------------------------------------------------
-                  
-    $(".table .table-body").on("click",(eventObj1 => {
-        delegatedEvent = eventObj1   
-        userAction = parseInt(eventObj1.target.dataset.myaction)
-        userKEY = eventObj1.target.dataset.myhash
+})
 
-        console.log(`%c This is the delegated event: ${eventObj1.type}`, "color:red;")
-        console.log(`%c This is what you were looking for: ${eventObj1.target.dataset.myhash}`, "color:green;")
-        console.log(`%c And wants to perform this action: ${eventObj1.target.dataset.myaction}`, "color:green;")
-    }))
-   
-})  
 
     // Inicialización general del Script
     // ------------------------------------------------------------------------
@@ -81,16 +68,37 @@ $("document").ready( ()=> {
         lastname: "",
         age: 0,
         position: ""
-    }
-   
+    }    
+
     // Default value is 0 for upload, 1 for view, 2 for update, 3 for Erase
  
     let userAction = 0
+    let delegatedEvent
+    
+    // Table Event Handling
+    // ------------------------------------------------------------------------
+                  
+    $(".table .table-body").on("click",(eventObj1 => {
+
+        delegatedEvent = eventObj1   
+
+        console.log(`%c This is the delegated event: ${eventObj1.type}`, "color:red;")
+        console.log(`%c This is what you were looking for: ${eventObj1.target.dataset.myhash}`, "color:green;")
+        console.log(`%c And wants to perform this action: ${eventObj1.target.dataset.myaction}`, "color:green;")
         
+        if (eventObj1.target.dataset.myhash != "" && eventObj1.target.dataset.myaction > 0) {
+
+            userKEY = eventObj1.target.dataset.myhash
+            userAction = parseInt(eventObj1.target.dataset.myaction)       
+            preLoadUserData1(userKEY) 
+
+        }      
+
+    }))
+          
     // Table Data Printing and Data Update according to Server Response:
     // ------------------------------------------------------------------------
    
-    let delegatedEvent
     let JSONResponseArray1
    
     function tablePrint () {
@@ -108,8 +116,8 @@ $("document").ready( ()=> {
             tableBodyStr += `<td>${jsonKey[1].age}</td>`
             tableBodyStr += `<td>${jsonKey[1].position}</td>`
             tableBodyStr += `<td><a href="#top" class="btn btn-success" data-myHash="${jsonKey[0]}" data-myAction="1">View</a></td>`
-            tableBodyStr += `<td><a href="#top" class="btn btn-primary" data-myHash="${jsonKey[0]}" data-myAction="2" onclick=preLoadUserData1("${jsonKey[0]}",2)>Update</a></td>`
-            tableBodyStr += `<td><a href="#top" class="btn btn-danger" data-myHash="${jsonKey[0]}" data-myAction="3" onclick=preLoadUserData1("${jsonKey[0]}",3)>Erase</a></td>`
+            tableBodyStr += `<td><a href="#top" class="btn btn-primary" data-myHash="${jsonKey[0]}" data-myAction="2">Update</a></td>`
+            tableBodyStr += `<td><a href="#top" class="btn btn-danger" data-myHash="${jsonKey[0]}" data-myAction="3">Erase</a></td>`
             tableBodyStr += `</tr>`  
               
         })
@@ -122,13 +130,10 @@ $("document").ready( ()=> {
     // Here are the general function to preload FORM before any Action
     // ------------------------------------------------------------------------
        
-    function preLoadUserData1(datakey, actionValue) {
+    function preLoadUserData1(datakey) {
       
         console.log("Readiness before update")
         console.table(JSONResponse1[datakey])
-
-        userKEY = datakey
-        userAction = actionValue
 
         $("#validationTooltip01").val(JSONResponse1[datakey].username)
         $("#validationTooltip02").val(JSONResponse1[datakey].lastname)
@@ -195,4 +200,7 @@ $("document").ready( ()=> {
 
     */
 
-        
+    
+
+    
+
